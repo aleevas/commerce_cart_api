@@ -1,5 +1,5 @@
 {
-  "name": "drupal/commerce_cart_api",
+  "name": "openy/commerce_cart_api",
   "type": "drupal-module",
   "description": "Provides a RESTful interface to interact with carts in Drupal Commerce via a lightweight public API.",
   "keywords": ["Drupal"],
