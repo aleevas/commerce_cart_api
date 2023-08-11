@@ -36,11 +36,11 @@ class FieldItemNormalizer extends CoreFieldItemNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function supportsNormalization($data, $format = NULL) {
+  public function supportsNormalization($data, $format = NULL, array $context = []): bool {
     $supported = parent::supportsNormalization($data, $format);
     if ($supported) {
       $route = $this->routeMatch->getRouteObject();
-      return $route->hasRequirement('_cart_api');
+      return $route && $route->hasRequirement('_cart_api');
     }
     return $supported;
   }
@@ -48,7 +48,7 @@ class FieldItemNormalizer extends CoreFieldItemNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function normalize($field_item, $format = NULL, array $context = []) {
+  public function normalize($field_item, $format = NULL, array $context = []): float|array|\ArrayObject|bool|int|string|null {
     $data = parent::normalize($field_item, $format, $context);
     // This will always be true, but here for type hinting for IDE.
     if (!$field_item instanceof FieldItemInterface) {
@@ -62,6 +62,13 @@ class FieldItemNormalizer extends CoreFieldItemNormalizer {
       return $data[$main_property];
     }
     return $data;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasCacheableSupportsMethod(): bool {
+    return FALSE;
   }
 
 }

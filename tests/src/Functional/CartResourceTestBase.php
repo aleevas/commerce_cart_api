@@ -2,10 +2,13 @@
 
 namespace Drupal\Tests\commerce_cart_api\Functional;
 
+use Drupal\commerce_price\Comparator\NumberComparator;
+use Drupal\commerce_price\Comparator\PriceComparator;
 use Drupal\commerce_store\StoreCreationTrait;
 use Drupal\Core\Url;
 use Drupal\Tests\rest\Functional\CookieResourceTestTrait;
 use Drupal\Tests\rest\Functional\ResourceTestBase;
+use SebastianBergmann\Comparator\Factory as PhpUnitComparatorFactory;
 
 /**
  * Defines base class for commerce_cart_api test cases.
@@ -58,7 +61,7 @@ abstract class CartResourceTestBase extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'commerce_cart_api',
     'commerce',
     'commerce_cart',
@@ -70,8 +73,17 @@ abstract class CartResourceTestBase extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  protected $defaultTheme = 'stark';
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp(): void {
     parent::setUp();
+
+    $factory = PhpUnitComparatorFactory::getInstance();
+    $factory->register(new NumberComparator());
+    $factory->register(new PriceComparator());
 
     $this->store = $this->createStore();
     $this->cartManager = \Drupal::service('commerce_cart.cart_manager');

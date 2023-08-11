@@ -57,7 +57,7 @@
    */
   Drupal.behaviors.cartBlock = {
     attach(context) {
-      $(context).find('#commerce_cart_js_block').once('cart-block-render').each(function () {
+      $(once('cart-block-render', $(context).find('#commerce_cart_js_block'), context)).each(function () {
         const model = new Drupal.commerceCart.CartBlockModel(
           drupalSettings.cartBlock.context
         );

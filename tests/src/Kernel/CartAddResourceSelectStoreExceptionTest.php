@@ -6,25 +6,23 @@ use Drupal\commerce_cart_api\Plugin\rest\resource\CartAddResource;
 use Drupal\commerce_product\Entity\Product;
 use Drupal\commerce_product\Entity\ProductVariation;
 use Drupal\Core\Entity\Entity\EntityFormMode;
-use Drupal\Tests\commerce\Kernel\CommerceKernelTestBase;
+use Drupal\Tests\commerce_order\Kernel\OrderKernelTestBase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
  * @group commerce_cart_api
  */
-final class CartAddResourceSelectStoreExceptionTest extends CommerceKernelTestBase {
+final class CartAddResourceSelectStoreExceptionTest extends OrderKernelTestBase {
+
+  use ProphecyTrait;
 
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'serialization',
-    'entity_reference_revisions',
-    'profile',
-    'state_machine',
-    'commerce_order',
-    'path',
     'commerce_product',
     'commerce_cart',
     'commerce_cart_api',
@@ -33,7 +31,7 @@ final class CartAddResourceSelectStoreExceptionTest extends CommerceKernelTestBa
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->installEntitySchema('commerce_product');
     $this->installEntitySchema('commerce_product_variation');
@@ -65,7 +63,8 @@ final class CartAddResourceSelectStoreExceptionTest extends CommerceKernelTestBa
 
     $request = $this->prophesize(Request::class);
 
-    $this->setExpectedException(UnprocessableEntityHttpException::class, 'The given entity is not assigned to any store.');
+    $this->expectException(UnprocessableEntityHttpException::class);
+    $this->expectExceptionMessage('The given entity is not assigned to any store.');
 
     $controller = $this->getController();
     $controller->post([
@@ -98,7 +97,8 @@ final class CartAddResourceSelectStoreExceptionTest extends CommerceKernelTestBa
 
     $request = $this->prophesize(Request::class);
 
-    $this->setExpectedException(UnprocessableEntityHttpException::class, "The given entity can't be purchased from the current store.");
+    $this->expectException(UnprocessableEntityHttpException::class);
+    $this->expectExceptionMessage("The given entity can't be purchased from the current store.");
 
     $controller = $this->getController();
     $controller->post([
@@ -129,7 +129,8 @@ final class CartAddResourceSelectStoreExceptionTest extends CommerceKernelTestBa
       $this->container->get('commerce_order.chain_order_type_resolver'),
       $this->container->get('commerce_store.current_store'),
       $this->container->get('commerce_price.chain_price_resolver'),
-      $this->container->get('current_user')
+      $this->container->get('current_user'),
+      $this->container->get('entity.repository')
     );
   }
 

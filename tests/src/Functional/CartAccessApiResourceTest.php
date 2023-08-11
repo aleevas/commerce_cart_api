@@ -22,7 +22,7 @@ class CartAccessApiResourceTest extends CartResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     // Parent will provision resource for canonical; need others here.
@@ -51,7 +51,7 @@ class CartAccessApiResourceTest extends CartResourceTestBase {
     $this->assertInstanceOf(OrderInterface::class, $cart);
 
     $response = $this->request('GET', $url, $request_options);
-    $this->assertResourceResponse(200, FALSE, $response, ['commerce_order:1', 'config:rest.resource.commerce_cart_collection', 'config:rest.settings', 'http_response'], ['cart', 'store'], FALSE, 'MISS');
+    $this->assertResourceResponse(200, FALSE, $response, ['commerce_order:1', 'config:rest.resource.commerce_cart_collection', 'http_response'], ['cart', 'store'], FALSE, 'MISS');
   }
 
   /**

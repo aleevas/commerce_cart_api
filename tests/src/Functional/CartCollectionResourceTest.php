@@ -21,7 +21,7 @@ class CartCollectionResourceTest extends CartResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->setUpAuthorization('GET');
   }
@@ -41,7 +41,6 @@ class CartCollectionResourceTest extends CartResourceTestBase {
 
     $this->assertResourceResponse(200, FALSE, $response, [
       'config:rest.resource.commerce_cart_collection',
-      'config:rest.settings',
       'http_response',
     ], ['cart', 'store'], FALSE, 'MISS');
 
@@ -64,7 +63,6 @@ class CartCollectionResourceTest extends CartResourceTestBase {
     $this->assertResourceResponse(200, FALSE, $response, [
       'commerce_order:1',
       'config:rest.resource.commerce_cart_collection',
-      'config:rest.settings',
       'http_response',
     ], ['cart', 'store'], FALSE, 'MISS');
 
@@ -86,7 +84,6 @@ class CartCollectionResourceTest extends CartResourceTestBase {
       'commerce_order:1',
       'commerce_order:2',
       'config:rest.resource.commerce_cart_collection',
-      'config:rest.settings',
       'http_response',
     ], ['cart', 'store'], FALSE, 'MISS');
 

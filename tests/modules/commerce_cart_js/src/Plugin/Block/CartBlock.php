@@ -35,7 +35,7 @@ class CartBlock extends BlockBase {
             'template' => $twig->getCode(),
             'context' => [
               'url' => Url::fromRoute('commerce_cart.page')->toString(),
-              'icon' => file_create_url(drupal_get_path('module', 'commerce') . '/icons/ffffff/cart.png'),
+              'icon' => \Drupal::service('file_url_generator')->generateAbsoluteString(\Drupal::service('extension.list.module')->getPath('commerce') . '/icons/ffffff/cart.png'),
             ],
           ],
         ],

@@ -45,7 +45,7 @@ class EntityReferenceNormalizer extends EntityReferenceFieldItemNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function supportsNormalization($data, $format = NULL) {
+  public function supportsNormalization($data, $format = NULL, array $context = []): bool {
     $supported = parent::supportsNormalization($data, $format);
     if ($supported) {
       $route = $this->routeMatch->getRouteObject();
@@ -59,7 +59,7 @@ class EntityReferenceNormalizer extends EntityReferenceFieldItemNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function normalize($field_item, $format = NULL, array $context = []) {
+  public function normalize($field_item, $format = NULL, array $context = []): float|array|\ArrayObject|bool|int|string|null {
     assert($field_item instanceof EntityReferenceItem);
     $entity = $field_item->get('entity')->getValue();
     return $this->serializer->normalize($entity, $format, $context);
@@ -73,6 +73,13 @@ class EntityReferenceNormalizer extends EntityReferenceFieldItemNormalizer {
    */
   protected function getSupportedFields() {
     return $this->allowedFields;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasCacheableSupportsMethod(): bool {
+    return FALSE;
   }
 
 }

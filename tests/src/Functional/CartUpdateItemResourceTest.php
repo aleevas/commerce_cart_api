@@ -23,7 +23,7 @@ class CartUpdateItemResourceTest extends CartResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->setUpAuthorization('PATCH');
   }
@@ -158,7 +158,7 @@ class CartUpdateItemResourceTest extends CartResourceTestBase {
     // Verify cart total updated.
     $this->container->get('entity_type.manager')->getStorage('commerce_order')->resetCache([$cart->id()]);
     $cart = Order::load($cart->id());
-    $this->assertEquals($cart->getTotalPrice()->getNumber(), 2500);
+    $this->assertEquals($cart->getTotalPrice()->getNumber(), '2500');
 
     // Verify json response.
     $response_body = Json::decode((string) $response->getBody());

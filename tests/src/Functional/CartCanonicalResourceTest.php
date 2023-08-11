@@ -21,7 +21,7 @@ class CartCanonicalResourceTest extends CartResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->setUpAuthorization('GET');
   }
@@ -57,7 +57,7 @@ class CartCanonicalResourceTest extends CartResourceTestBase {
     $url->setOption('query', ['_format' => static::$format]);
 
     $response = $this->request('GET', $url, $request_options);
-    $this->assertResourceResponse(200, FALSE, $response, ['commerce_order:1', 'config:rest.resource.commerce_cart_canonical', 'config:rest.settings', 'http_response'], [''], FALSE, 'MISS');
+    $this->assertResourceResponse(200, FALSE, $response, ['commerce_order:1', 'config:rest.resource.commerce_cart_canonical', 'http_response'], [''], FALSE, 'MISS');
 
     $response_body = Json::decode((string) $response->getBody());
     $this->assertEquals($response_body['order_id'], $cart->id());
@@ -72,7 +72,7 @@ class CartCanonicalResourceTest extends CartResourceTestBase {
     $order_item = $items[0];
 
     $response = $this->request('GET', $url, $request_options);
-    $this->assertResourceResponse(200, FALSE, $response, ['commerce_order:1', 'config:rest.resource.commerce_cart_canonical', 'config:rest.settings', 'http_response'], [''], FALSE, 'MISS');
+    $this->assertResourceResponse(200, FALSE, $response, ['commerce_order:1', 'config:rest.resource.commerce_cart_canonical', 'http_response'], [''], FALSE, 'MISS');
 
     $response_body = Json::decode((string) $response->getBody());
     $this->assertEquals(count($response_body['order_items']), 1);
